@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
 		<title>TeXT</title>
@@ -35,8 +36,16 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script>
 			$(document).ready(function() {
+				// workarounds
+				var selection = null;
+				var hoverTools = false;
+				
+				// check whether or not the mouse is hovering the tools box
+				$('.tools').mouseenter(function() { hoverTools = true; }).mouseleave(function() { hoverTools = false; });
+				
+				// show tools ballon
 				$(document).mouseup(function(e) {
-					var selection = document.getSelection();
+					selection = document.getSelection();
 					if(selection.toString() != '') {
 						if( ! $('.tools').hasClass('open')) {
 							$('.tools').css({'left' : (e.pageX + 5), 'top' : (e.pageY + 5)}).fadeIn(180).addClass('open');
@@ -46,7 +55,16 @@
 					}
 				});
 				
-				// commands
+				// fix problem with selection range
+				$(document).mousedown(function() {
+					console.log(hoverTools)
+					if(hoverTools == false && selection != null) {
+						selection.collapse(true);
+						selection = null;
+					}
+				})
+				
+				// formatting commands
 				$('.bold').click(function() {
 					document.execCommand('bold');
 				})
