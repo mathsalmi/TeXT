@@ -28,6 +28,19 @@
 					} else {
 						$('.tools').fadeOut(180).removeClass('open');
 					}
+				});
+				
+				// commands
+				$('.bold').click(function() {
+					document.execCommand('bold');
+				})
+				
+				$('.italic').click(function() {
+					document.execCommand('italic');
+				})
+				
+				$('.underline').click(function() {
+					document.execCommand('underline');
 				})
 			})
 		</script>
@@ -37,9 +50,9 @@
 			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
 		</div>
 		<div class="tools">
-			<a href="javascript:void(0)"><img src="images/bold.png" alt="Bold"></a>
-			<a href="javascript:void(0)"><img src="images/italic.png" alt="Italic"></a>
-			<a href="javascript:void(0)"><img src="images/underline.png" alt="Underline"></a>
+			<a href="javascript:void(0)" class="bold"><img src="images/bold.png" alt="Bold"></a>
+			<a href="javascript:void(0)" class="italic"><img src="images/italic.png" alt="Italic"></a>
+			<a href="javascript:void(0)" class="underline"><img src="images/underline.png" alt="Underline"></a>
 		</div>
 	</body>
 </html>
