@@ -57,14 +57,13 @@
 				
 				// fix problem with selection range
 				$(document).mousedown(function() {
-					console.log(hoverTools)
 					if(hoverTools == false && selection != null) {
 						selection.collapse(true);
 						selection = null;
 					}
 				})
 				
-				// formatting commands
+				// formatting commands for mouse
 				$('.bold').click(function() {
 					document.execCommand('bold');
 				})
@@ -75,6 +74,32 @@
 				
 				$('.underline').click(function() {
 					document.execCommand('underline');
+				})
+				
+				// formatting commands for keyboard
+				$(document).keydown(function(e) {
+					// selecting text
+					if(selection != null) {
+						if(e.metaKey && e.keyCode == 66) {
+							document.execCommand('bold');
+						}
+
+						if(e.metaKey && e.keyCode == 73) {
+							document.execCommand('italic');
+						}
+						
+						if(e.metaKey && e.keyCode == 85) {
+							document.execCommand('underline');
+						}
+						
+						// delete line using cmd d
+						if(e.metaKey && e.keyCode == 68) {
+							e.preventDefault();
+							selection.modify('move', 'backward', 'lineboundary');
+							selection.modify('extend', 'forward', 'lineboundary');
+							selection.deleteFromDocument();
+						}
+					}
 				})
 			})
 		</script>
