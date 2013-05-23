@@ -34,7 +34,12 @@
 			}
 		</style>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="TeXT.js"></script>
 		<script>
+			$(document).ready(function() {
+				$('#content').TeXT();
+			});
+			
 			/*
 			Original code. Created on brainstorms.
 			
@@ -120,7 +125,7 @@
 		</script>
 	</head>
 	<body>
-		<div id="content" contenteditable="true">
+		<div id="content">
 			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
 		</div>
 		<div class="tools">
