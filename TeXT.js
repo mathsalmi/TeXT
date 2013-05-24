@@ -194,6 +194,7 @@
 	 * @return array an instance of the objects
 	 */
 	$.fn.TeXT = function() {
+		// TODO: if there is only one object in THIS, then return the object otherwise return an array of objects
 		var r = [];
 		
 		this.each(function() {
