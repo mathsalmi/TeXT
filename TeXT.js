@@ -11,6 +11,7 @@
 	var Toolbox = {
 		// TODO: make it extensible
 		// TODO: return public methods
+		// TODO: work for many elements
 		
 		obj: null,
 		selection: null,
@@ -94,6 +95,8 @@
 	var Keyboard = {
 		// TODO: make it extensible
 		// TODO: return public methods
+		// TODO: work for many elements
+		
 		editor: null,
 		toolbox: null,
 		selection: null, // TODO: check whether or not is needed. Perhaps move document.getSelection() to an object
