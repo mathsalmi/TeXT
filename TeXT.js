@@ -195,6 +195,7 @@
 	 */
 	$.fn.TeXT = function() {
 		// TODO: if there is only one object in THIS, then return the object otherwise return an array of objects
+		// TODO: add options for customization purposes
 		var r = [];
 		
 		this.each(function() {
