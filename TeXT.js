@@ -166,11 +166,11 @@
 		}
 		
 		var _getHTML = function() {
-			$obj.html();
+			return $obj.html();
 		}
 		
 		var _getText = function() {
-			$obj.text();
+			return $obj.text();
 		}
 		
 		var methods = {
