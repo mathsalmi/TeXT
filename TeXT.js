@@ -9,9 +9,8 @@
 	 * Formatting toolbox
 	 */
 	var Toolbox = {
-		// TODO:
-		// - make it extensible
-		// - return public methods
+		// TODO: make it extensible
+		// TODO: return public methods
 		
 		obj: null,
 		selection: null,
@@ -93,12 +92,11 @@
 	};
 	
 	var Keyboard = {
-		// TODO:
-		// - make it extensible
-		// - return public methods
+		// TODO: make it extensible
+		// TODO: return public methods
 		editor: null,
 		toolbox: null,
-		selection: null, // TODO check whether or not is needed. Perhaps move document.getSelection() to an object
+		selection: null, // TODO: check whether or not is needed. Perhaps move document.getSelection() to an object
 		
 		init: function(editor, toolbox) {
 			if(editor == null || toolbox == null) {
@@ -113,10 +111,9 @@
 		
 		run: function() {
 			var that = this;
-			var selection = document.getSelection();
 			
 			$(document).keydown(function(e) {
-				// selecting text
+				var selection = document.getSelection();
 				if(selection != null && that.editor.isFocused()) {
 					if(e.metaKey && e.keyCode == 66) {
 						e.preventDefault();
