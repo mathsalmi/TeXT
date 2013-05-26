@@ -5,6 +5,8 @@
  */
 (function($) {
 	
+	// TODO: create singleton objects for keyboard and mouse events
+	
 	/**
 	 * Formatting toolbox
 	 */
@@ -91,6 +93,10 @@
 			return this.obj;
 		},
 	};
+	
+	function ToolBox() {
+		
+	}
 	
 	var Keyboard = {
 		// TODO: make it extensible
