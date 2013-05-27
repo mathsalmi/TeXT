@@ -46,12 +46,14 @@
 			}).mouseleave(function() {
 				hover = false;
 			});
+			
+			console.log(hover); // TODO: remove this
 		}
 		
 		function _toggle() {
 			$(document).mouseup(function(e) {
 				selection = document.getSelection();
-				if(selection.toString() != '' && editor.isFocused()) {
+				if( ! selection.isCollapsed && editor.isFocused()) {
 					if( ! isVisible()) {
 						show(e);
 					}
@@ -72,6 +74,9 @@
 		
 		function _checkSelectionRange() {
 			$(document).mousedown(function() {
+				console.log(hover); // TODO: remove this
+				console.log(selection); // TODO: remove this
+				
 				if(hover == false && selection != null) {
 					selection.collapse(true);
 					selection = null;
