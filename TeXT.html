@@ -10,8 +10,7 @@
 		<script>
 			var editor = '';
 			$(document).ready(function() {
-				var arr = $('.content').TeXT();
-				arr[0].changeBg();
+				var arr = $('#content').TeXT();
 			});
 			
 			/*
@@ -99,11 +98,11 @@
 		</script>
 	</head>
 	<body>
-		<div class="content">
+		<div id="content">
 			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
 		</div>
-		<div class="content">
+		<!--<div class="content">
 			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
-		</div>
+		</div>-->
 	</body>
 </html>
