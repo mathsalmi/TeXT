@@ -192,10 +192,15 @@
 	 * @return array an instance of the objects
 	 */
 	$.fn.TeXT = function() {
-		// TODO: if there is only one object in THIS, then return the object otherwise return an array of objects
 		// TODO: add options for customization purposes
-		var r = [];
 		
+		// selector matched one
+		if(this.length == 1) {
+			return new TeXT($(this));
+		}
+		
+		// selector matched more than one
+		var r = [];
 		this.each(function() {
 			r.push( new TeXT($(this)) );
 		});
