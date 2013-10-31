@@ -5,14 +5,13 @@
  */
 (function($) {
 	
-	// TODO: create singleton objects for keyboard and mouse events
-	
 	/**
 	 * Formatting toolbox
 	 */	
 	function ToolBox(editor) {
 		// TODO: make it extensible
-		// TODO: change the way mouse and keyboard events are dealt
+		
+		const OPEN_CLASS = 'open';
 		
 		var obj = null;
 		var selection = null;
@@ -51,8 +50,6 @@
 			}).mouseleave(function() {
 				hover = false;
 			});
-			
-			console.log(hover); // TODO: remove this
 		}
 		
 		function _toggle() {
@@ -69,12 +66,11 @@
 		}
 		
 		function show(event) {
-			obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass('open');
+			obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass(OPEN_CLASS);
 		}
 		
 		function hide(event) {
-			// TODO: move the css class "open" to a constant
-			obj.fadeOut(180).removeClass('open');
+			obj.fadeOut(180).removeClass(OPEN_CLASS);
 		}
 		
 		function _checkSelectionRange() {
@@ -90,7 +86,7 @@
 		}
 		
 		function isVisible() {
-			return obj.hasClass('open');
+			return obj.hasClass(OPEN_CLASS);
 		}
 		
 		// Execution
@@ -131,9 +127,7 @@
 				// delete line using META D
 				if(e.metaKey && e.keyCode == 68) {
 					e.preventDefault();
-					selection.modify('move', 'backward', 'lineboundary');
-					selection.modify('extend', 'forward', 'lineboundary');
-					selection.deleteFromDocument();
+					Actions.deleteLine(selection);
 				}
 			}
 		});
@@ -155,6 +149,12 @@
 		
 		underline: function() {
 			document.execCommand('underline');
+		},
+		
+		deleteLine: function(selection) {
+			selection.modify('move', 'backward', 'lineboundary');
+			selection.modify('extend', 'forward', 'lineboundary');
+			selection.deleteFromDocument();
 		}
 	}
 	
