@@ -17,8 +17,10 @@
 		var selection = null;
 		var hover = false;
 		
+		var self = this;
+		
 		// Methods
-		function _init() {
+		function init() {
 			var html = '<div class="tools">' +
 					'<a href="javascript:void(0)" class="bold"><img src="images/bold.png" alt="Bold"></a>' +
 					'<a href="javascript:void(0)" class="italic"><img src="images/italic.png" alt="Italic"></a>' +
@@ -33,18 +35,18 @@
 			obj.find('.underline').click(Actions.underline)
 		}
 		
-		function _run() {
+		function run() {
 			// check whether or not the mouse is hovering the tools box
-			_checkHover();
+			checkHover();
 			
 			// toggle toolbox
-			_toggle();
+			toggle();
 			
 			// fix problem with selection range
-			_checkSelectionRange();
+			checkSelectionRange();
 		}
 		
-		function _checkHover() {
+		function checkHover() {
 			obj.mouseenter(function() {
 				hover = true;
 			}).mouseleave(function() {
@@ -52,28 +54,28 @@
 			});
 		}
 		
-		function _toggle() {
+		function toggle() {
 			$(document).mouseup(function(e) {
 				selection = document.getSelection();
 				if( ! selection.isCollapsed && editor.isFocused()) {
-					if( ! isVisible()) {
-						show(e);
+					if( ! self.isVisible()) {
+						self.show(e);
 					}
 				} else {
-					hide(e);
+					self.hide(e);
 				}
 			});
 		}
 		
-		function show(event) {
+		this.show = function(event) {
 			obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass(OPEN_CLASS);
 		}
 		
-		function hide(event) {
+		this.hide = function(event) {
 			obj.fadeOut(180).removeClass(OPEN_CLASS);
 		}
 		
-		function _checkSelectionRange() {
+		function checkSelectionRange() {
 			$(document).mousedown(function() {
 				console.log(hover); // TODO: remove this
 				console.log(selection); // TODO: remove this
@@ -85,22 +87,16 @@
 			});
 		}
 		
-		function isVisible() {
+		this.isVisible = function() {
 			return obj.hasClass(OPEN_CLASS);
 		}
 		
 		// Execution
-		_init();
-		_run();
-		
-		return {
-			show: show,
-			hide: hide,
-			isVisible: isVisible,
-		}
+		init();
+		run();
 	}
 	
-	function Keyboard(editor, toolbox) {
+	function Keyboard(editor) {
 		// TODO: make it extensible
 		
 		$(document).keydown(function(e) {
@@ -121,7 +117,7 @@
 				
 				// close toolbox with ESC
 				if(e.keyCode == 27) {
-					toolbox.hide();
+					editor.toolbox.hide();
 				}
 				
 				// delete line using META D
@@ -164,9 +160,8 @@
 	 * @param jQuery $obj the object to add this editor to
 	 */
 	function TeXT($obj) {
-		var _toolbox = null;
 		
-		var _init = function() {
+		function init() {
 			// TODO: check whether this was already instantiated
 			// TODO: create detach method
 			
@@ -174,40 +169,31 @@
 			$obj.prop('contenteditable', true);
 		}
 		
-		var isFocused = function() {
+		this.isFocused = function() {
 			return $(document.activeElement).is($obj);
 		}
 		
-		var getHTML = function() {
+		this.getHTML = function() {
 			return $obj.html();
 		}
 		
-		var getText = function() {
+		this.getText = function() {
 			return $obj.text();
 		}
 		
-		function changeBg() {
+		// TODO: delete this function
+		this.changeBg = function() {
 			$obj.css('background', 'red');
 		}
 		
+		// add tooltip box to public methods	
+		this.toolbox = new ToolBox(this);
+		
+		// add keyboard to public methods
+		this.keyboard = new Keyboard(this);
+		
 		// Execution
-		_init();
-		
-		var methods = {
-			isFocused: isFocused,
-			getHTML: getHTML,
-			getText: getText,
-			changeBg: changeBg,
-		};
-		
-		_toolbox = new ToolBox(methods);
-		methods.box = _toolbox; // add to public methods
-		
-		_keyboard = new Keyboard(methods, _toolbox);
-		methods.keyboard = _keyboard; // add to public methods
-		
-		// Returns public functions
-		return methods;
+		init();
 	}
 	
 	/**
