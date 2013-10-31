@@ -8,101 +8,14 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script src="TeXT.js"></script>
 		<script>
-			var editor = '';
 			$(document).ready(function() {
-				var arr = $('#content').TeXT();
+				var editor = $('#content').TeXT();
 			});
-			
-			/*
-			Original code. Created on brainstorms.
-			
-			$(document).ready(function() {
-				// workarounds
-				var selection = null;
-				var hoverTools = false;
-				
-				// check whether or not the mouse is hovering the tools box
-				$('.tools').mouseenter(function() { hoverTools = true; }).mouseleave(function() { hoverTools = false; });
-				
-				// show tools ballon
-				$(document).mouseup(function(e) {
-					selection = document.getSelection();
-					if(selection.toString() != '') {
-						if( ! $('.tools').hasClass('open')) {
-							$('.tools').css({'left' : (e.pageX + 5), 'top' : (e.pageY + 5)}).fadeIn(180).addClass('open');
-						}
-					} else {
-						$('.tools').fadeOut(180).removeClass('open');
-					}
-				});
-				
-				// fix problem with selection range
-				$(document).mousedown(function() {
-					if(hoverTools == false && selection != null) {
-						selection.collapse(true);
-						selection = null;
-					}
-				})
-				
-				// formatting commands for mouse
-				$('.bold').click(function() {
-					// document.execCommand('bold');
-					document.execCommand('formatBlock', false, '<h1>');
-				})
-				
-				$('.italic').click(function() {
-					document.execCommand('italic');
-				})
-				
-				$('.underline').click(function() {
-					document.execCommand('underline');
-				})
-				
-				// formatting commands for keyboard
-				$(document).keydown(function(e) {
-					// selecting text
-					if(selection != null && isEditorFocused()) {
-						if(e.metaKey && e.keyCode == 66) {
-							e.preventDefault();
-							document.execCommand('bold');
-						}
-
-						if(e.metaKey && e.keyCode == 73) {
-							document.execCommand('italic');
-						}
-						
-						if(e.metaKey && e.keyCode == 85) {
-							document.execCommand('underline');
-						}
-						
-						// close toolbox with ESC
-						if(e.keyCode == 27) {
-							$('.tools').fadeOut(180).removeClass('open');
-						}
-						
-						// delete line using META D
-						if(e.metaKey && e.keyCode == 68) {
-							e.preventDefault();
-							selection.modify('move', 'backward', 'lineboundary');
-							selection.modify('extend', 'forward', 'lineboundary');
-							selection.deleteFromDocument();
-						}
-					}
-				})
-				
-				// check whether or not the focus is on the text editor
-				function isEditorFocused() {
-					return $(document.activeElement).is('#content');
-				}
-			})*/
 		</script>
 	</head>
 	<body>
 		<div id="content">
 			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
 		</div>
-		<!--<div class="content">
-			<p>Hello world!</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris venenatis tristique dolor, non dignissim tellus varius at.</p><p>Nam eu ante a dui feugiat molestie nec vel leo. Morbi lacinia dignissim tristique.</p><p>Matt</p>
-		</div>-->
 	</body>
 </html>
