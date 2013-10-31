@@ -27,6 +27,11 @@
 				'</div>';
 			
 			obj = $(html).appendTo('body');
+			
+			// Actions
+			obj.find('.bold').click(Actions.bold)
+			obj.find('.italic').click(Actions.italic)
+			obj.find('.underline').click(Actions.underline)
 		}
 		
 		function _run() {
@@ -107,15 +112,15 @@
 			if(selection != null && editor.isFocused()) {
 				if(e.metaKey && e.keyCode == 66) {
 					e.preventDefault();
-					document.execCommand('bold');
+					Actions.bold();
 				}
 
 				if(e.metaKey && e.keyCode == 73) {
-					document.execCommand('italic');
+					Actions.italic();
 				}
 				
 				if(e.metaKey && e.keyCode == 85) {
-					document.execCommand('underline');
+					Actions.underline();
 				}
 				
 				// close toolbox with ESC
@@ -132,6 +137,25 @@
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Text editor actions
+	 * 
+	 * @type {Object}
+	 */
+	var Actions = {
+		bold: function() {
+			document.execCommand('bold');
+		},
+		
+		italic: function() {
+			document.execCommand('italic');
+		},
+		
+		underline: function() {
+			document.execCommand('underline');
+		}
 	}
 	
 	/**
