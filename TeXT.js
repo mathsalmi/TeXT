@@ -83,7 +83,7 @@
 				console.log(selection); // TODO: remove this
 				
 				if(hover == false && selection != null) {
-					selection.collapse(true);
+					selection.collapse(true); // TODO: this call is not standard and crashes on Firefox and IE
 					selection = null;
 				}
 			});
