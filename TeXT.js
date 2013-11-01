@@ -260,7 +260,7 @@
 			$obj.prop('contenteditable', true);
 			
 			// add instance of this to $obj
-			$obj.data('TeXT', this);
+			$obj.data('TeXT', self);
 			
 			// initializes toolbox
 			self.toolbox = new ToolBox(self);
