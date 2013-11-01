@@ -19,7 +19,9 @@
 		
 		var self = this;
 		
-		// Methods
+		/**
+		 * Initializes the toolbox
+		 */
 		function init() {
 			var html = '<div class="tools">' +
 					'<a href="javascript:void(0)" class="bold"><img src="images/bold.png" alt="Bold"></a>' +
@@ -35,6 +37,9 @@
 			obj.find('.underline').click(Actions.underline)
 		}
 		
+		/**
+		 * Methods to be executed after 'init' is ran
+		 */
 		function run() {
 			// check whether or not the mouse is hovering the tools box
 			checkHover();
@@ -43,9 +48,12 @@
 			toggle();
 			
 			// fix problem with selection range
-			checkSelectionRange();
+			fixSelectionRange();
 		}
 		
+		/**
+		 * Checks whether the mouse is hovering the toolbox
+		 */
 		function checkHover() {
 			obj.mouseenter(function() {
 				hover = true;
@@ -54,6 +62,9 @@
 			});
 		}
 		
+		/**
+		 * Shows or hides the toolbox
+		 */
 		function toggle() {
 			$(document).mouseup(function(e) {
 				selection = document.getSelection();
@@ -67,15 +78,26 @@
 			});
 		}
 		
+		/**
+		 * Shows the toolbox
+		 * @param  {event} mouse event
+		 */
 		this.show = function(event) {
 			obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass(OPEN_CLASS);
 		}
 		
+		/**
+		 * Hides the toolbox
+		 * @param  {event} mouse event
+		 */
 		this.hide = function(event) {
 			obj.fadeOut(180).removeClass(OPEN_CLASS);
 		}
 		
-		function checkSelectionRange() {
+		/**
+		 * Collapses text selection
+		 */
+		function fixSelectionRange() {
 			$(document).mousedown(function() {
 				console.log(hover); // TODO: remove this
 				console.log(selection); // TODO: remove this
@@ -87,6 +109,10 @@
 			});
 		}
 		
+		/**
+		 * Checks whether or not the toolbox is visible
+		 * @return {boolean} true if visible
+		 */
 		this.isVisible = function() {
 			return obj.hasClass(OPEN_CLASS);
 		}
@@ -98,19 +124,23 @@
 	
 	function Keyboard(editor) {
 		// TODO: make it extensible
+		// TODO: change metaKey or ctrlKey depending on the OS
 		
 		$(document).keydown(function(e) {
 			var selection = document.getSelection();
 			if(selection != null && editor.isFocused()) {
+				// bold on META B
 				if(e.metaKey && e.keyCode == 66) {
 					e.preventDefault();
 					Actions.bold();
 				}
-
+				
+				// italic on META I
 				if(e.metaKey && e.keyCode == 73) {
 					Actions.italic();
 				}
 				
+				// underline on META U
 				if(e.metaKey && e.keyCode == 85) {
 					Actions.underline();
 				}
@@ -135,18 +165,31 @@
 	 * @type {Object}
 	 */
 	var Actions = {
+		/**
+		 * Makes selected text bold
+		 */
 		bold: function() {
 			document.execCommand('bold');
 		},
 		
+		/**
+		 * Makes selected text italic
+		 */
 		italic: function() {
 			document.execCommand('italic');
 		},
 		
+		/**
+		 * Underlines selected text
+		 */
 		underline: function() {
 			document.execCommand('underline');
 		},
 		
+		/**
+		 * Deletes selected line
+		 * @param  {Selection} selection the selection object
+		 */
 		deleteLine: function(selection) {
 			selection.modify('move', 'backward', 'lineboundary');
 			selection.modify('extend', 'forward', 'lineboundary');
@@ -161,6 +204,9 @@
 	 */
 	function TeXT($obj) {
 		
+		/**
+		 * Initializes the editor
+		 */
 		function init() {
 			// TODO: check whether this was already instantiated
 			// TODO: create detach method
@@ -169,14 +215,26 @@
 			$obj.prop('contenteditable', true);
 		}
 		
+		/**
+		 * Checks whether or not the editor is focused
+		 * @return {Boolean} true if it is focused
+		 */
 		this.isFocused = function() {
 			return $(document.activeElement).is($obj);
 		}
 		
+		/**
+		 * Returns editor's value in HTML
+		 * @return {string} editor's value
+		 */
 		this.getHTML = function() {
 			return $obj.html();
 		}
 		
+		/**
+		 * Returns editor's value in simple text
+		 * @return {string} editor's value
+		 */
 		this.getText = function() {
 			return $obj.text();
 		}
@@ -199,7 +257,8 @@
 	/**
 	 * jQuery integration
 	 * 
-	 * @return array an instance of the objects
+	 * @return object an instance of TeXT
+	 * @return array array of instances of TeXT
 	 */
 	$.fn.TeXT = function() {
 		// TODO: add options for customization purposes
