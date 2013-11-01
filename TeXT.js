@@ -138,42 +138,61 @@
 	
 	function Keyboard(editor) {
 		// TODO: make it extensible
-		// TODO: change metaKey or ctrlKey depending on the OS
 		
-		$(document).on("keydown.Keyboard", function(e) {
-			var selection = document.getSelection();
-			if(selection != null && editor.isFocused()) {
-				// bold on META B
-				if(e.ctrlKey && e.keyCode == 66) {
-					e.preventDefault();
-					Actions.bold();
+		/**
+		 * Initializes the keyboard
+		 */
+		function init() {
+			$(document).on("keydown.Keyboard", function(e) {
+				var selection = document.getSelection();
+				if(selection != null && editor.isFocused()) {
+					
+					// bold on META B
+					if(actionKey(e) && e.keyCode == 66) {
+						e.preventDefault();
+						Actions.bold();
+					}
+					
+					// italic on META I
+					if(actionKey(e) && e.keyCode == 73) {
+						e.preventDefault();
+						Actions.italic();
+					}
+					
+					// underline on META U
+					if(actionKey(e) && e.keyCode == 85) {
+						e.preventDefault();
+						Actions.underline();
+					}
+					
+					// close toolbox with ESC
+					if(e.keyCode == 27) {
+						e.preventDefault();
+						editor.toolbox.hide();
+					}
+					
+					// delete line using META D
+					if(actionKey(e) && e.keyCode == 68) {
+						e.preventDefault();
+						Actions.deleteLine(selection);
+					}
 				}
-				
-				// italic on META I
-				if(e.ctrlKey && e.keyCode == 73) {
-					e.preventDefault();
-					Actions.italic();
-				}
-				
-				// underline on META U
-				if(e.ctrlKey && e.keyCode == 85) {
-					e.preventDefault();
-					Actions.underline();
-				}
-				
-				// close toolbox with ESC
-				if(e.keyCode == 27) {
-					e.preventDefault();
-					editor.toolbox.hide();
-				}
-				
-				// delete line using META D
-				if(e.ctrlKey && e.keyCode == 68) {
-					e.preventDefault();
-					Actions.deleteLine(selection);
-				}
+			});
+		}
+		
+		/**
+		 * Returns which action key should be used depending on the OS
+		 * @param  {event} e keyboard event
+		 * @return {boolean}   whether or not the action key is pressed
+		 */
+		function actionKey(e) {
+			var isMac = navigator.platform.toUpperCase().indexOf('MAC') != -1;
+			if(isMac) {
+				return e.metaKey;
 			}
-		});
+			
+			return e.ctrlKey;
+		}
 		
 		/**
 		 * Detaches keyboard object
@@ -181,6 +200,9 @@
 		this.detach = function() {
 			$(document).off('.Keyboard');
 		}
+		
+		// Execution
+		init();
 	}
 	
 	/**
