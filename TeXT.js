@@ -47,7 +47,7 @@
 			toggle();
 			
 			// fix problem with selection range
-			fixSelectionRange();
+			fixSelectionCollapse();
 		}
 		
 		/**
@@ -100,13 +100,14 @@
 		}
 		
 		/**
-		 * Collapses text selection
+		 * Forces collapsing selection after clicking on something selected.
+		 * Bug: select a word; click on the selection; it should deselect and selection's isCollapsed property should be "false"
+		 * 		but it is not what happens, so the toolbox never hides.
 		 */
-		function fixSelectionRange() {
+		function fixSelectionCollapse() {
 			$(document).mousedown(function() {
 				if(self.isHovered == false && selection != null) {
-					selection.collapse(true); // TODO: this call is not standard and crashes on Firefox and IE
-					selection = null;
+					selection.collapseToStart();
 				}
 			});
 		}
