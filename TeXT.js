@@ -250,6 +250,8 @@
 	 */
 	function TeXT($obj) {
 		
+		var self = this;
+		
 		/**
 		 * Initializes the editor
 		 */
@@ -259,6 +261,12 @@
 			
 			// add instance of this to $obj
 			$obj.data('TeXT', this);
+			
+			// initializes toolbox
+			self.toolbox = new ToolBox(self);
+			
+			// initializes keyboard
+			self.keyboard = new Keyboard(self);
 		}
 		
 		/**
@@ -306,12 +314,6 @@
 		this.changeBg = function() {
 			$obj.css('background', 'red');
 		}
-		
-		// add tooltip box to public methods	
-		this.toolbox = new ToolBox(this);
-		
-		// add keyboard to public methods
-		this.keyboard = new Keyboard(this);
 		
 		// Execution
 		init();
