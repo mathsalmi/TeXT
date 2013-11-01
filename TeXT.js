@@ -101,7 +101,7 @@
 		
 		/**
 		 * Forces collapsing selection after clicking on something selected.
-		 * Bug: select a word; click on the selection; it should deselect and selection's isCollapsed property should be "false"
+		 * Bug: select a word; click on the selection; it should deselect it and selection's isCollapsed property should be "false"
 		 * 		but it is not what happens, so the toolbox never hides.
 		 */
 		function fixSelectionCollapse() {
@@ -172,21 +172,21 @@
 		 * Makes selected text bold
 		 */
 		bold: function() {
-			document.execCommand('bold');
+			document.execCommand('bold', false, null);
 		},
 		
 		/**
 		 * Makes selected text italic
 		 */
 		italic: function() {
-			document.execCommand('italic');
+			document.execCommand('italic', false, null);
 		},
 		
 		/**
 		 * Underlines selected text
 		 */
 		underline: function() {
-			document.execCommand('underline');
+			document.execCommand('underline', false, null);
 		},
 		
 		/**
