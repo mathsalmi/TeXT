@@ -11,13 +11,12 @@
 	function ToolBox(editor) {
 		// TODO: make it extensible
 		
-		const OPEN_CLASS = 'open';
+		var self = this;
+		
+		var OPEN_CLASS = 'open';
 		
 		var obj = null;
 		var selection = null;
-		var hover = false;
-		
-		var self = this;
 		
 		/**
 		 * Initializes the toolbox
@@ -52,13 +51,19 @@
 		}
 		
 		/**
+		 * Tells whether or not mouse is hovering the toolbox
+		 * @type {Boolean}
+		 */
+		self.isHovered = false;
+		
+		/**
 		 * Checks whether the mouse is hovering the toolbox
 		 */
 		function checkHover() {
 			obj.mouseenter(function() {
-				hover = true;
+				self.isHovered = true;
 			}).mouseleave(function() {
-				hover = false;
+				self.isHovered = false;
 			});
 		}
 		
@@ -68,7 +73,7 @@
 		function toggle() {
 			$(document).mouseup(function(e) {
 				selection = document.getSelection();
-				if( ! selection.isCollapsed && editor.isFocused()) {
+				if( ! selection.isCollapsed && (editor.isFocused() || self.isHovered)) {
 					if( ! self.isVisible()) {
 						self.show(e);
 					}
@@ -99,10 +104,7 @@
 		 */
 		function fixSelectionRange() {
 			$(document).mousedown(function() {
-				console.log(hover); // TODO: remove this
-				console.log(selection); // TODO: remove this
-				
-				if(hover == false && selection != null) {
+				if(self.isHovered == false && selection != null) {
 					selection.collapse(true); // TODO: this call is not standard and crashes on Firefox and IE
 					selection = null;
 				}
