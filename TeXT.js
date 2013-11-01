@@ -254,10 +254,11 @@
 		 * Initializes the editor
 		 */
 		function init() {
-			// TODO: check whether this was already instantiated
-			
 			// set the content editable
 			$obj.prop('contenteditable', true);
+			
+			// add instance of this to $obj
+			$obj.data('TeXT', this);
 		}
 		
 		/**
@@ -266,6 +267,9 @@
 		this.detach = function() {
 			// set element's content not editable
 			$obj.prop('contenteditable', false);
+			
+			// remove the instance of this from the object
+			$obj.removeData('TeXT');
 			
 			// detach keyboard
 			this.keyboard.detach();
@@ -320,19 +324,18 @@
 	 * @return array array of instances of TeXT
 	 */
 	$.fn.TeXT = function() {
-		// TODO: add options for customization purposes
+		// TODO: make it extensible
 		
-		// selector matched one
-		if(this.length == 1) {
-			return new TeXT($(this));
-		}
-		
-		// selector matched more than one
 		var r = [];
 		this.each(function() {
-			r.push( new TeXT($(this)) );
+			var t = $(this).data('TeXT');
+			if(t == null) {
+				t = new TeXT($(this));
+			}
+			
+			r.push(t);
 		});
 		
-		return r;
+		return r.length == 1 ? r[0] : r;
 	}
 })(jQuery);
