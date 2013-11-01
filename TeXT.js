@@ -15,7 +15,7 @@
 		
 		var OPEN_CLASS = 'open';
 		
-		var obj = null;
+		var $obj = null;
 		var selection = null;
 		
 		/**
@@ -28,12 +28,12 @@
 					'<a href="javascript:void(0)" class="underline"><img src="images/underline.png" alt="Underline"></a>' +
 				'</div>';
 			
-			obj = $(html).appendTo('body');
+			$obj = $(html).appendTo('body');
 			
 			// Actions
-			obj.find('.bold').click(Actions.bold)
-			obj.find('.italic').click(Actions.italic)
-			obj.find('.underline').click(Actions.underline)
+			$obj.find('.bold').click(Actions.bold)
+			$obj.find('.italic').click(Actions.italic)
+			$obj.find('.underline').click(Actions.underline)
 		}
 		
 		/**
@@ -60,7 +60,7 @@
 		 * Checks whether the mouse is hovering the toolbox
 		 */
 		function checkHover() {
-			obj.mouseenter(function() {
+			$obj.mouseenter(function() {
 				self.isHovered = true;
 			}).mouseleave(function() {
 				self.isHovered = false;
@@ -71,7 +71,7 @@
 		 * Shows or hides the toolbox
 		 */
 		function toggle() {
-			$(document).mouseup(function(e) {
+			$(document).on('mouseup.ToolBox', function(e) {
 				selection = document.getSelection();
 				if( ! selection.isCollapsed && (editor.isFocused() || self.isHovered)) {
 					if( ! self.isVisible()) {
@@ -88,7 +88,7 @@
 		 * @param  {event} mouse event
 		 */
 		this.show = function(event) {
-			obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass(OPEN_CLASS);
+			$obj.css({'left' : (event.pageX + 5), 'top' : (event.pageY + 5)}).fadeIn(180).addClass(OPEN_CLASS);
 		}
 		
 		/**
@@ -96,7 +96,7 @@
 		 * @param  {event} mouse event
 		 */
 		this.hide = function(event) {
-			obj.fadeOut(180).removeClass(OPEN_CLASS);
+			$obj.fadeOut(180).removeClass(OPEN_CLASS);
 		}
 		
 		/**
@@ -105,7 +105,7 @@
 		 * 		but it is not what happens, so the toolbox never hides.
 		 */
 		function fixSelectionCollapse() {
-			$(document).mousedown(function() {
+			$(document).on("mousedown.ToolBox", function() {
 				if(self.isHovered == false && selection != null) {
 					selection.collapseToStart();
 				}
@@ -117,7 +117,18 @@
 		 * @return {boolean} true if visible
 		 */
 		this.isVisible = function() {
-			return obj.hasClass(OPEN_CLASS);
+			return $obj.hasClass(OPEN_CLASS);
+		}
+		
+		/**
+		 * Detaches toolbox
+		 */
+		this.detach = function() {
+			// delete toolbox HTML
+			$obj.remove();
+			
+			// remove events on Document
+			$(document).off('.ToolBox');
 		}
 		
 		// Execution
@@ -129,37 +140,47 @@
 		// TODO: make it extensible
 		// TODO: change metaKey or ctrlKey depending on the OS
 		
-		$(document).keydown(function(e) {
+		$(document).on("keydown.Keyboard", function(e) {
 			var selection = document.getSelection();
 			if(selection != null && editor.isFocused()) {
 				// bold on META B
-				if(e.metaKey && e.keyCode == 66) {
+				if(e.ctrlKey && e.keyCode == 66) {
 					e.preventDefault();
 					Actions.bold();
 				}
 				
 				// italic on META I
-				if(e.metaKey && e.keyCode == 73) {
+				if(e.ctrlKey && e.keyCode == 73) {
+					e.preventDefault();
 					Actions.italic();
 				}
 				
 				// underline on META U
-				if(e.metaKey && e.keyCode == 85) {
+				if(e.ctrlKey && e.keyCode == 85) {
+					e.preventDefault();
 					Actions.underline();
 				}
 				
 				// close toolbox with ESC
 				if(e.keyCode == 27) {
+					e.preventDefault();
 					editor.toolbox.hide();
 				}
 				
 				// delete line using META D
-				if(e.metaKey && e.keyCode == 68) {
+				if(e.ctrlKey && e.keyCode == 68) {
 					e.preventDefault();
 					Actions.deleteLine(selection);
 				}
 			}
 		});
+		
+		/**
+		 * Detaches keyboard object
+		 */
+		this.detach = function() {
+			$(document).off('.Keyboard');
+		}
 	}
 	
 	/**
@@ -212,10 +233,23 @@
 		 */
 		function init() {
 			// TODO: check whether this was already instantiated
-			// TODO: create detach method
 			
 			// set the content editable
 			$obj.prop('contenteditable', true);
+		}
+		
+		/**
+		 * Detaches editor, keyboard and the toolbox
+		 */
+		this.detach = function() {
+			// set element's content not editable
+			$obj.prop('contenteditable', false);
+			
+			// detach keyboard
+			this.keyboard.detach();
+			
+			// detach toolbox
+			this.toolbox.detach();
 		}
 		
 		/**
